@@ -40,7 +40,7 @@ class Employee {
 
   makeWidget(){
     // return `${this.first_name}${this.last_name} Widget`
-    return first_name + last_name + 'Widget'
+    return `${this.first_name} ${this.last_name} Widget`
   }
 
 }
@@ -137,6 +137,19 @@ class ProgressiveManager extends Manager {
     }
   }
 
+  hire(name) {
+    super.hire(name);
+    this.updateTitle();
+    return this.reports;
+  }
+
+  fire(index) {
+    super.fire(index);
+    this.updateTitle();
+    this.giveBonus();
+    return this.reports;
+  }
+
   giveBonus() {
     this.bonus += 100;
   }
@@ -168,4 +181,30 @@ class ProgressiveManager extends Manager {
 
 //Code Here
 
+class Machine {
+  constructor() {
+    this.widgets_made_count = 0;
+    this.wear_and_tear_count = 0;
+    this.needs_reboot = false;
+  }
 
+  makeWidgets(num) {
+    this.widgets_made_count += num;
+    if (this.widgets_made_count % 50 == 0) {
+      this.wear_and_tear_count = this.widgets_made_count / 50;
+    }
+  }
+
+  fixMachine() {
+    this.needs_reboot = true;
+  }
+
+  reboot() {
+    return {
+      fix: () => {
+        this.wear_and_tear_count -= 10;
+      },
+      reboot: () => (this.needs_reboot = false),
+    };
+  }
+}
